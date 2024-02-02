@@ -7,13 +7,15 @@ spring:
     username: root
     password: abc123
 logging:
-  level:
-    root: info
-  file:
-    name: demo.log
-  logback:
-    rollingpolicy:
-      max-file-size: 1MB
+  config: classpath:logging/logback-spring.xml
+#logging:
+#  level:
+#    root: info
+#  file:
+#    name: ${LOG_HOME}/%d{yyyyMMdd}/${APP_NAME}-%d{yyyyMMdd}-%i.log
+#  logback:
+#    rollingpolicy:
+#      max-file-size: 1MB
 server:
   port: 8083
 mybatis:

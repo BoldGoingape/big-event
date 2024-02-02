@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <!--每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用contextName标签设置成其他名字，用于区分不同应用程序的记录，修改contextName后和nacos冲突-->
+    <contextName>property-manage-server</contextName>
+    <!--日志文件主目录：${user.home}为当前服务器用户主目录， log为当前项目根目录下创建-->
+    <property name="LOG_HOME" value="log"/>
+    <!--日志文件名称：这里spring.application.name表示工程名称-->
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+
+    <!--默认配置-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!--配置控制台(Console)-->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!--配置日志文件(File)-->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--设置策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/%d{yyyyMMdd}/${APP_NAME}-%d{yyyyMMdd}-%i.log</FileNamePattern>
+            <!--日志保留天数-->
+            <MaxHistory>15</MaxHistory>
+            <!--日志文件的最大大小-->
+            <MaxFileSize>1MB</MaxFileSize>
+        </rollingPolicy>
+        <!--设置格式-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <!-- 或者使用默认配置 -->
+            <!--<pattern>${FILE_LOG_PATTERN}</pattern>-->
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!--root节点 全局日志级别，用来指定最基础的日志输出级别-->
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- 子节点向上级传递 局部日志级别-->
+    <logger level="DEBUG" name="cn.easymap.property.manage.server.mapper"/>
+
+    <!-- 多环境配置 按照active profile选择分支 -->
+    <springProfile name="dev">
+        <!--<root></root>-->
+        <!--<logger></logger>-->
+    </springProfile>
+    <springProfile name="prod">
+        <!--<root></root>-->
+        <!--<logger></logger>-->
+    </springProfile>
+</configuration>
