@@ -3,9 +3,12 @@ package com.wenjuju.top.controller;
 import com.wenjuju.top.bean.Result;
 import com.wenjuju.top.bean.User;
 import com.wenjuju.top.service.UserService;
+import com.wenjuju.top.utils.ThreadLocalUtil;
 import com.wenjuju.top.utils.jwtUtil;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,10 +52,47 @@ public class UserController {
     }
     //获取用户信息
     @GetMapping("/userInfo")
-    public Result <User>getUserinfo(@RequestHeader(name = "Authorization") String token){
-        Map<String, Object> map = jwtUtil.parseToken(token);
-        String username  =(String) map.get("username");
+//    public Result <User>getUserinfo(@RequestHeader(name = "Authorization") String token){
+    public Result <User>getUserinfo(/*@RequestHeader(name = "Authorization") String token*/){
+//        Map<String, Object> map = jwtUtil.parseToken(token);
+//        String username  =(String) map.get("username");
+        Map <String,Object>map = ThreadLocalUtil.get();
+        String username=(String) map.get("username");
         User userInfo = userService.findByUserName(username);
         return Result.success(userInfo);
+    }
+    @PutMapping("/update")
+    public Result update(@RequestBody @Validated User user){
+    userService.update(user);
+    return Result.success();
+    }
+//    跟新用户头像
+    @PatchMapping("updateAvater")
+    public Result updateAvater(@RequestParam @URL String avaterUrl){
+        userService.updateAvater(avaterUrl);
+        return Result.success();
+    }
+    //更新用户密码
+    @PatchMapping("/updatePwd")
+    public Result updatePwd(@RequestBody Map<String,String>params){
+        //校验参数
+        String oldPwd = params.get("old_pwd");
+        String newPwd = params.get("new_pwd");
+        String rePwd = params.get("re_pwd");
+        if (!StringUtils.hasLength(oldPwd)||!StringUtils.hasLength(newPwd)||!StringUtils.hasLength(rePwd)){
+            return Result.error("缺少必要参数");
+        }
+        //校验原始密码 用户名查询 原始密码
+        Map<String,Object>map=ThreadLocalUtil.get();
+        String username =(String) map.get("username");
+        User loginUser = userService.findByUserName(username);
+        if (!loginUser.getPassword().equals(oldPwd)){
+            return Result.error("原密码填写不正确");
+        }
+        if (!newPwd.equals(rePwd)){
+            return Result.error("两次填写的密码不一致");
+        }
+        userService.updatePwd(newPwd);
+        return Result.success();
     }
 }
