@@ -1,6 +1,7 @@
 package com.wenjuju.top.controller;
 
 import com.wenjuju.top.bean.Article;
+import com.wenjuju.top.bean.PageBean;
 import com.wenjuju.top.bean.Result;
 import com.wenjuju.top.service.ArticleService;
 import com.wenjuju.top.utils.jwtUtil;
@@ -36,5 +37,14 @@ public class ArticleController {
         articleService.add(article);
         return Result.success();
     }
+    @GetMapping
+    public Result<PageBean<Article>>list(
+            Integer pageNum,
+            Integer pageSize,
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(required = false) String state){
 
+      PageBean<Article> pb=  articleService.list(pageNum,pageSize,categoryId,state);
+        return Result.success(pb);
+    }
 }

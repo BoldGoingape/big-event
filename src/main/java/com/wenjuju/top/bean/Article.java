@@ -1,6 +1,8 @@
 package com.wenjuju.top.bean;
 
+import com.wenjuju.top.anno.State;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,9 +23,9 @@ public class Article {
     @NotEmpty
     @URL
     private String coverImg;//文章封面
-
+    @State
     private String state;//文章状态
-    @NotEmpty
+    @NotNull
     private Integer categoryId;//文章分类id
     private Integer createUser;//创建人id
     private LocalDateTime createTime;//创建时间
