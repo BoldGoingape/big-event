@@ -5,6 +5,8 @@ import com.wenjuju.top.bean.User;
 import com.wenjuju.top.service.UserService;
 import com.wenjuju.top.utils.ThreadLocalUtil;
 import com.wenjuju.top.utils.jwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 @RestController
+@Tag(name = "用户管理")
 @RequestMapping("/user")
 @Validated
 public class UserController {
@@ -27,6 +29,7 @@ public class UserController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 //    创建用户
+@Operation(summary = "创建用户")
     @PostMapping("/register")
     public Result register(@Pattern(regexp ="^\\S{5,16}$" )String username, @Pattern(regexp ="^\\S{5,16}$" )String password){
             //查询用户
