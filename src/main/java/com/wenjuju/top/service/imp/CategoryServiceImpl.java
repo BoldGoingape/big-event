@@ -4,13 +4,14 @@ import com.wenjuju.top.bean.Category;
 import com.wenjuju.top.mapper.CategoryMapper;
 import com.wenjuju.top.service.CategoryService;
 import com.wenjuju.top.utils.ThreadLocalUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 @Service
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
@@ -25,6 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
         Integer id=(Integer)map.get("id");
         category.setCreateUser(id);
         System.out.println(category);
+//        log.info(category);
     categoryMapper.add(category);
     }
 //获取文章列表

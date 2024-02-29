@@ -12,7 +12,7 @@
     <artifactId>big-event</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>big-event</name>
-    <description>big-event</description>
+    <description>大事件-文章管理服务</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -30,6 +30,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.26</version>
+        </dependency>
+        <!--谷歌工具-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
         </dependency>
 <!--        参数校验-->
         <dependency>

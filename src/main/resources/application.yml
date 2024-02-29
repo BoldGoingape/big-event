@@ -33,6 +33,15 @@ mybatis:
     map-underscore-to-camel-case: true #开启驼峰命名法和下划线之间的转换
 
 #swagger配置
+swagger:
+  title: 大事件-文章管理系统
+  version: v1.0.0
+  description: 文章管理系统api
+  security-schemes:
+    - in: header
+      type: apikey
+      name: token
+#springdoc-openapi项目配置
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -40,10 +49,26 @@ springdoc:
     operations-sorter: alpha
   api-docs:
     path: /v3/api-docs
+    enabled: true
   group-configs:
-    - group: 'default'
+    - group: '大事件-文章'
       paths-to-match: '/**'
-      packages-to-scan: com.hexadecimal.example
+      packages-to-scan: com.wenjuju.top.controller # 设置包扫描路径
+
+#knife4j增强配置
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+    enable-version: true
+    swagger-model-name: 实体类列表
+    enable-footer: false
+    enable-footer-custom: true
+    footer-custom-content: 割爱之举
+  basic:
+    enable: true  #生产环境关闭
+    username: yyt
+    password: yyt_123
 
 
 #springdoc:

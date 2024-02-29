@@ -33,6 +33,7 @@ public class WebConfig implements WebMvcConfigurer {//注册拦截器
         ignorePath.add("/swagger-ui.html");
         ignorePath.add("/user/login");
         ignorePath.add("/user/register");
+        ignorePath.add("/favicon.ico");
 
 //        registry.addInterceptor(loginInterceptor).excludePathPatterns("/user/login","/user/register");
         registry.addInterceptor(loginInterceptor).excludePathPatterns(ignorePath);
@@ -49,6 +50,6 @@ public class WebConfig implements WebMvcConfigurer {//注册拦截器
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
-
+        registry.addResourceHandler("favicon.ico").addResourceLocations("classpath:/static/");
     }
 }
